@@ -1,0 +1,1 @@
+"""Local screenshot receipt organizer."""

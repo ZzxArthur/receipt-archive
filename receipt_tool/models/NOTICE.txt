@@ -1,0 +1,11 @@
+Offline models derived from PaddleOCR, distributed under Apache License 2.0.
+Copyright Baidu and/or the respective PaddleOCR rights holders.
+
+PP-OCRv6 tiny detector and recognizer, dictionary, and PP-OCRv4 orientation
+classifier are distributed by RapidAI/RapidOCR. Exact sources and SHA-256
+digests are recorded in MODELS.json. See LICENSE.txt for the license text.
+
+https://github.com/PaddlePaddle/PaddleOCR
+https://github.com/RapidAI/RapidOCRLite
+
+No Indra OCR model files are included in this application.

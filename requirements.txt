@@ -1,0 +1,7 @@
+# CPU-only offline OCR; heavy optional extras are intentionally excluded.
+RapidOCRLite==5.0.0a15
+numpy==2.5.4
+Pillow==13.0.0
+PyYAML==6.0.3
+requests>=2.32,<3
+tqdm>=4,<5

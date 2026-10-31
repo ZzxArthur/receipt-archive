@@ -1,0 +1,42 @@
+name: Feature request / 功能建议
+description: 提出新功能、新的截图类型或导出格式
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请先说明**要解决的报销场景**，而不只是「加一个按钮」。这个项目优先保持离线、轻量、可核对。
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你遇到的具体问题
+      placeholder: 例如：滴滴行程单和支付截图金额不一致，我不知道该信哪一个。
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 期望的做法
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 你目前的替代方案
+  - type: dropdown
+    id: network
+    attributes:
+      label: 这个功能需要联网吗？
+      options:
+        - 完全离线
+        - 需要可选联网（例如发票查验）
+        - 不确定
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: 设计约束
+      options:
+        - label: 我理解项目默认不上传截图，也不依赖云端 API。
+          required: true

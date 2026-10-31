@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.runtime/
+.build/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Build output and local releases
+dist/
+*.deb
+*.zip
+*.tar.gz
+
+# Local data, logs, and editor noise
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

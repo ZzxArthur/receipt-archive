@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python 3.12
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependencies
+        run: python -m pip install --disable-pip-version-check "pillow==13.0.0"
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Byte-compile every source file
+        run: python -m compileall -q receipt_tool desktop windows scripts
+
+      - name: Verify bundled OCR models
+        run: python scripts/prepare_ocr_models.py --verify-only
+
+      - name: Check shell entry points
+        run: |
+          for file in desktop.sh open.sh start.sh; do
+            bash -n "$file"
+          done
