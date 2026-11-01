@@ -254,7 +254,7 @@ def build(skip_install: bool = False) -> Path:
     control = staging / "DEBIAN" / "control"
     control.parent.mkdir(parents=True, exist_ok=True)
     control.write_text(f"Package: {PACKAGE}\nVersion: {version}\nSection: office\nPriority: optional\n"
-        "Architecture: amd64\nMaintainer: Receipt Archive Project <noreply@example.invalid>\n"
+        "Architecture: amd64\nMaintainer: ZzxArthur <ZzxArthur@users.noreply.github.com>\n"
         f"Installed-Size: {size_kb}\n"
         "Depends: python3 (>= 3.8), python3-gi, gir1.2-gtk-3.0, "
         "gir1.2-webkit2-4.1 (>= 2.36) | gir1.2-webkit2-4.0 (>= 2.36), "
