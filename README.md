@@ -7,6 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-3776AB.svg)
 ![Platform](https://img.shields.io/badge/Platform-Ubuntu%20%7C%20Windows-4B5563.svg)
+[![CI](https://github.com/ZzxArthur/receipt-archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ZzxArthur/receipt-archive/actions/workflows/ci.yml)
 
 [快速开始](#快速开始) · [使用方法](#使用方法) · [局限性](#局限性) · [English](README.en.md)
 
