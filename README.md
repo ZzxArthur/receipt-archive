@@ -48,8 +48,8 @@
 
 | 平台 | 文件 | 说明 |
 | --- | --- | --- |
-| Ubuntu 20.04 / 22.04 / 24.04 LTS (x86_64) | `凭证归档.deb` | `sudo apt install ./凭证归档.deb`，从应用菜单打开 |
-| Windows 10 / 11 (x64) | `凭证归档.zip` | 完整解压后双击 `run.vbs`；不要直接在压缩包里运行 |
+| Ubuntu 20.04 / 22.04 / 24.04 LTS (x86_64) | `receipt-archive_1.3.1_amd64.deb` | `sudo apt install ./receipt-archive_1.3.1_amd64.deb`，从应用菜单打开 |
+| Windows 10 / 11 (x64) | `receipt-archive_1.3.1_windows_x64.zip` | 完整解压后双击 `run.vbs`；不要直接在压缩包里运行 |
 
 Ubuntu 版需要 GTK 3 / WebKitGTK 2.36+（apt 会自动处理依赖）。Windows 版需要 Microsoft Visual C++ v14 x64 Runtime；系统没有时从[微软官方页面](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)安装。
 

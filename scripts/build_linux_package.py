@@ -297,7 +297,7 @@ def build(skip_install: bool = False) -> Path:
     subprocess.run(["desktop-file-validate", str(entry)], check=True)
     for path in payload.rglob("__pycache__"):
         shutil.rmtree(path)
-    output = ROOT / "dist" / "ubuntu" / "凭证归档.deb"
+    output = ROOT / "dist" / "ubuntu" / f"receipt-archive_{version}_amd64.deb"
     output.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run(["dpkg-deb", "--root-owner-group", "-Zxz", "-z6", "--build", str(staging), str(output)], check=True)
     digest = hashlib.sha256(output.read_bytes()).hexdigest()

@@ -48,8 +48,8 @@ Download the package for your platform from [Releases](https://github.com/ZzxArt
 
 | Platform | File | Notes |
 | --- | --- | --- |
-| Ubuntu 20.04 / 22.04 / 24.04 LTS (x86_64) | `凭证归档.deb` | `sudo apt install ./凭证归档.deb` |
-| Windows 10 / 11 (x64) | `凭证归档.zip` | Extract fully, then run `run.vbs` |
+| Ubuntu 20.04 / 22.04 / 24.04 LTS (x86_64) | `receipt-archive_1.3.1_amd64.deb` | `sudo apt install ./receipt-archive_1.3.1_amd64.deb` |
+| Windows 10 / 11 (x64) | `receipt-archive_1.3.1_windows_x64.zip` | Extract fully, then run `run.vbs` |
 
 Ubuntu needs GTK 3 / WebKitGTK 2.36+ (apt handles the dependency). Windows needs the Microsoft Visual C++ v14 x64 Runtime.
 

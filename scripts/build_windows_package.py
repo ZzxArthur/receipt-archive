@@ -237,7 +237,7 @@ def build(reuse_runtime: bool = False) -> Path:
     forbidden = {".data", "artifacts", "examples", ".pytest_cache", ".venv"}
     if any(forbidden.intersection(path.relative_to(payload).parts) for path in payload.rglob("*")):
         raise RuntimeError("发现不应发布的数据或开发目录。")
-    output = ROOT / "dist/windows" / "凭证归档.zip"
+    output = ROOT / "dist/windows" / f"receipt-archive_{version}_windows_x64.zip"
     output.parent.mkdir(parents=True, exist_ok=True)
     with ZipFile(output, "w", ZIP_DEFLATED, compresslevel=6) as archive:
         for path in sorted(payload.rglob("*")):
