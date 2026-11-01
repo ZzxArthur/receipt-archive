@@ -1,161 +1,78 @@
 # Receipt Archive
 
-Turn scattered **order screenshots** and **payment screenshots** into a clean, printable reimbursement packet.
+Turn **order screenshots** and **payment screenshots** into a printable reimbursement packet.
 
 Offline OCR · Local-only · Automatic matching · Word / PDF export
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-3776AB.svg)
 ![Platform](https://img.shields.io/badge/Platform-Ubuntu%20%7C%20Windows-4B5563.svg)
 [![CI](https://github.com/ZzxArthur/receipt-archive/actions/workflows/ci.yml/badge.svg)](https://github.com/ZzxArthur/receipt-archive/actions/workflows/ci.yml)
 
-[中文说明](README.md) · [Quick start](#quick-start) · [Usage](#usage) · [Limitations](#limitations)
+[中文说明](README.md) · [Full guide](docs/guide.en.md) · [Download](https://github.com/ZzxArthur/receipt-archive/releases)
 
-> This tool prepares **reimbursement evidence**, not VAT invoices. Digital invoices (PDF / OFD / XML), tax verification, bookkeeping, and tax filing are out of scope.
+## Demo
 
----
+[![Receipt Archive demo: import screenshots, review matches, and export](docs/assets/demo-preview.gif)](docs/assets/demo.mp4)
+
+[Watch the full video](docs/assets/demo.mp4)
 
 ## What it does
 
-Reimbursement paperwork usually fails at the same step: pairing each order with the payment that paid for it.
+- **Import in any order.** Drag and drop, choose files, or paste screenshots. Identical images are skipped automatically.
+- **Recognize locally.** Extract the actual paid amount, transaction date, merchant, and order number from Chinese order/payment pages.
+- **Match conservatively.** Pair orders with payments, including up to four split payments; ambiguous combinations need review.
+- **Correct and continue.** Edit fields and pairings manually. Batches survive closing the window.
+- **Export A4 Word / PDF.** Place each order above its payment receipts, with optional cropping of promotional footers.
 
-- The order lives in one screenshot and the payment receipt in another.
-- Dozens of screenshots arrive out of order.
-- The same image is saved and sent more than once.
-- One order may be paid in two or three installments.
-- The final packet must place the order above its payment receipts, one order per page.
+This is a **reimbursement evidence organizer**. It does not issue invoices, verify tax records, or perform bookkeeping.
 
-Receipt Archive reduces this to **import → review → export**, entirely on your machine. It is built for Chinese order/payment pages (Didi, Amap, Meituan, 12306, WeChat Pay, Alipay, and similar).
+## Install
 
-## Features
+Download a package from [Releases](https://github.com/ZzxArthur/receipt-archive/releases).
 
-- Drag and drop, file picker, or paste with `Ctrl / ⌘ + V`; add more screenshots to the same batch at any time.
-- Pixel-level duplicate detection: identical images are skipped even under a different filename.
-- Offline OCR with RapidOCRLite (native CPU) and PP-OCRv6 tiny models. No cloud, no API key.
-- Classifies each image as order, payment, or unknown; extracts the actual paid amount, date, time, merchant, and order number.
-- Conservative matching by amount, order number, date, merchant, and time. Supports up to four split payments per order and only auto-confirms a **unique** combination.
-- Manual correction for every field and every pairing. Manual edits survive re-recognition.
-- A4 DOCX / PDF: one order per page, order on top, payment receipts below, optional cropping of promotional footers.
-- Batches survive window closes and upgrades.
-
-Limits per batch: **500 images, 20 MB each, 512 MB total**.
-
-## Quick start
-
-### Option 1: Download a package
-
-Download the package for your platform from [Releases](https://github.com/ZzxArthur/receipt-archive/releases):
-
-| Platform | File | Notes |
+| Platform | Package | Open it |
 | --- | --- | --- |
-| Ubuntu 20.04 / 22.04 / 24.04 LTS (x86_64) | `receipt-archive_1.3.1_amd64.deb` | `sudo apt install ./receipt-archive_1.3.1_amd64.deb` |
-| Windows 10 / 11 (x64) | `receipt-archive_1.3.1_windows_x64.zip` | Extract fully, then run `run.vbs` |
+| Ubuntu 20.04 / 22.04 / 24.04 LTS, x86_64 | `.deb` | Install with `sudo apt install ./receipt-archive_1.3.1_amd64.deb`, then open Receipt Archive from the app menu. |
+| Windows 10 / 11, x64 | Portable `.zip` | Extract the whole archive, then double-click `run.vbs`. |
 
-Ubuntu needs GTK 3 / WebKitGTK 2.36+ (apt handles the dependency). Windows needs the Microsoft Visual C++ v14 x64 Runtime.
+Ubuntu requires GTK 3 / WebKitGTK 2.36+; apt handles these dependencies. Windows requires the Microsoft Visual C++ v14 x64 Runtime.
 
-> Binary packages are not committed to Git. If Releases has no package yet, run from source.
+The Windows package is cross-built and has not completed native Windows regression testing.
 
-### Option 2: Run from source
+For source installation or package builds, see the [full guide](docs/guide.en.md#quick-start). Binary packages are not committed to Git.
 
-You need Python 3.12, [uv](https://docs.astral.sh/uv/), and network access for the first install:
+## Use it
 
-```bash
-git clone https://github.com/ZzxArthur/receipt-archive.git
-cd receipt-archive
+1. **Import** order and payment screenshots. You can add them in several rounds.
+2. **Recognize** with “开始识别” (Start recognition).
+3. **Review** the extracted fields under “识别结果” (Results), especially the actual paid amount.
+4. **Pair** under “配对预览” (Pairs). Check yellow groups and adjust pairings manually when needed.
+5. **Export** Word, PDF, or both. Export before clearing the batch for your next project.
 
-uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python --no-deps -r requirements-linux.lock
-.venv/bin/python scripts/prepare_ocr_models.py
+Clearing a batch deletes its saved screenshots and recognition results. Keep important source images separately.
 
-# Browser mode
-.venv/bin/python -m receipt_tool.app --host 127.0.0.1 --port 8765
-# Open http://127.0.0.1:8765
+## Offline and private
 
-# Or the Ubuntu native window (GTK 3 / WebKitGTK)
-./desktop.sh
-```
+OCR, matching, and document export run on your computer. No cloud OCR, accounts, API keys, or telemetry.
 
-`./start.sh` creates the environment, prepares the models, and starts in the foreground. `./open.sh` starts in the background and opens the browser.
+Release packages bundle their OCR models. A first source installation needs network access for dependencies and models; normal use runs offline.
 
-### Option 3: Build a package
+Data stays in `~/.local/share/receipt-archive/data/` on Ubuntu or `%LOCALAPPDATA%\ReceiptArchive\data\` on Windows. Copy that folder to back up your work.
 
-```bash
-python3 scripts/build_linux_package.py    # Ubuntu .deb
-python3 scripts/build_windows_package.py  # Windows portable ZIP
-```
+## Limits
 
-Outputs go to `dist/ubuntu/` and `dist/windows/` with SHA-256 checksums.
+- Chinese order/payment screenshots are the main supported input. PNG, JPEG, WEBP, TIFF, and BMP are accepted; PDF / OFD / XML invoices are not.
+- A batch allows **500 images**, **20 MB per image**, **512 MB total**. One batch is active at a time.
+- OCR can misread compressed or unusual layouts. Review amounts before exporting.
+- Automatic matching requires an exact amount and a unique combination. One payment covering several orders is not supported.
+- The OCR engine is pinned to the pre-release `RapidOCRLite==5.0.0a15`. Test your samples before upgrading.
 
-## Usage
+See the [full limitations and workarounds](docs/guide.en.md#limitations).
 
-1. **Import.** Drag order and payment screenshots into the window, pick files, or paste. Order does not matter; you can add screenshots in several rounds.
-2. **Recognize.** Click “开始识别” (Start recognition). Each image is OCR'd locally. Type, amount, date, merchant, and order number are extracted.
-3. **Review.** Open the “识别结果” (Results) tab and check the type, the actual paid amount, and the date/merchant. Every field is editable.
-4. **Pair.** Open “配对预览” (Pairs). A green “已配对” group is confirmed; a yellow “需要核对” group needs attention. Use “核对 / 调整配对” to assign an order and one or more payments manually.
-5. **Export.** Choose Word + PDF (ZIP), DOCX, or PDF, optionally add a title and crop promotional footers. Export is blocked while items are unreviewed unless you tick “同时导出待确认与未配对截图”.
+## Contribute
 
-One order supports up to four split payments. Matching is confirmed automatically only when the sum is exact and the combination is unique.
-
-The app keeps **one active batch** at a time. Export first, then click “清空本批次” (Clear batch) before starting the next one. Clearing deletes that batch's screenshots and OCR results from the working directory.
-
-## Limitations
-
-| Limitation | What it means | Workaround |
-| --- | --- | --- |
-| **Chinese order/payment pages only** | Built-in merchant aliases cover Didi, Amap, Meituan, 12306, and a few others. Other languages/layouts may land in “unknown”. | Correct the type/amount manually, or add rules in `recognition.py`. |
-| **Screenshots only** | PNG / JPEG / WEBP / TIFF / BMP. No PDF, OFD, or XML e-invoices. | Convert e-invoices to images, or use a dedicated invoice tool. |
-| **Limited OCR accuracy** | The tiny model can fail on low-resolution, heavily compressed, busy, or stylized screenshots. | Use the original image; fill in fields manually when needed. |
-| **Amounts must match exactly** | A one-cent difference, partial refund, discount mismatch, or foreign currency will not auto-match. | Pair manually; do not edit amounts just to force a match. |
-| **One payment belongs to one order** | A single payment covering several orders (shopping-cart checkout) is not supported. | Split the payment screenshot per order, or organize them separately. |
-| **No status-bar clock** | If the screenshot has no “payment time / order time / trip end” label, the date may be empty. | Enter the transaction date manually. |
-| **One batch at a time** | Clearing the batch is required before starting a new one, and it deletes that batch's data. | Export first; keep a backup of important screenshots. |
-| **Batch size limits** | 500 images, 20 MB per image, 512 MB total. | Use one batch per month or per project. |
-| **Windows package is cross-built** | It has not been fully regression-tested on Windows 10/11. | Prefer running from source, or test on a spare machine. |
-| **Pre-release OCR engine** | Pinned to `RapidOCRLite==5.0.0a15`; behavior may change on upgrade. | Re-run your own screenshot samples before upgrading. |
-| **No mobile or remote access** | HTTP binds to `127.0.0.1`; a phone cannot connect directly. | Use the desktop app; transfer screenshots to the computer first. |
-
-### Explicitly out of scope
-
-- **Tax verification.** The national VAT invoice verification portal requires a CAPTCHA and has no public personal API. Bypassing it is neither stable nor compliant.
-- **Digital invoice parsing.** PDF / OFD / XML e-invoices are not read.
-- **Bookkeeping, tax filing, invoicing.** This is a reimbursement packet builder, not an accounting system.
-- **Uploading images.** No cloud OCR, telemetry, accounts, or API keys.
-
-## Data and privacy
-
-| Platform | Screenshots and OCR data | Logs |
-| --- | --- | --- |
-| Ubuntu | `~/.local/share/receipt-archive/data/` | `~/.local/state/receipt-archive/` |
-| Windows | `%LOCALAPPDATA%\ReceiptArchive\data\` | Same directory: `backend.log` / `desktop.log` |
-
-Set `RECEIPT_DATA_DIR` to override the data location. To back up, copy the whole `data/` directory. To move machines, put it back at the same path.
-
-OCR, matching, DOCX, and PDF generation all run locally. The only network access is the first source install (dependencies and pinned OCR models); release packages bundle the models and run offline.
-
-## Design constraints
-
-These are deliberate, not stylistic preferences:
-
-- **Offline by default.** No cloud OCR, telemetry, accounts, or API keys.
-- **Integer cents.** Amounts are never parsed or summed as floats.
-- **Uncertainty is allowed.** Low-confidence fields and ambiguous matches go to manual review instead of being guessed.
-- **Never read the phone status-bar clock.** Only times attached to transaction or trip labels are used.
-- **Local-only HTTP.** The service binds to loopback and validates the `Host` header.
-
-## Development
-
-```bash
-uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python --no-deps -r requirements-linux.lock
-
-.venv/bin/python -m unittest discover -s tests -v
-.venv/bin/python -m compileall -q receipt_tool desktop windows scripts
-```
-
-Tests need no network and no real screenshots: OCR tests use constructed text boxes, and export tests use generated solid-color images.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow and [SECURITY.md](SECURITY.md) for the threat model.
+Setup, tests, and design constraints are in the [contribution guide](CONTRIBUTING.md) and [full guide](docs/guide.en.md#development). Report security issues as described in [SECURITY.md](SECURITY.md).
 
 ## License
 
-Code is licensed under the [MIT License](LICENSE). OCR uses [RapidOCRLite](https://github.com/RapidAI/RapidOCRLite); the PP-OCR weights originate from PaddleOCR and are redistributed under Apache-2.0 with attribution in `receipt_tool/models/`.
+Code: [MIT](LICENSE). OCR: [RapidOCRLite](https://github.com/RapidAI/RapidOCRLite); PaddleOCR-derived model weights carry Apache-2.0 attribution in `receipt_tool/models/`.
